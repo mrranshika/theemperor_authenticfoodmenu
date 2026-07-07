@@ -12,6 +12,7 @@
             --card-bg: #1a1a1a;
             --text-light: #f4f4f4;
             --text-muted: #aaaaaa;
+            --whatsapp-green: #25D366;
         }
 
         * {
@@ -26,6 +27,8 @@
             font-family: 'Poppins', sans-serif;
             line-height: 1.6;
             overflow-x: hidden;
+            /* Banner එකට ඉඩ තැබීමට */
+            padding-bottom: 50px; 
         }
 
         h1, h2, h3 {
@@ -49,7 +52,6 @@
             align-items: center;
         }
 
-        /* නව ලෝගෝ පින්තූරය සඳහා සැකසුම් */
         .main-logo-img {
             max-width: 280px; 
             height: auto;
@@ -57,7 +59,6 @@
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
         }
 
-        /* ලෝගෝ එක යටින් පෙන්වන Restaurant & Pub අකුරු */
         .sub-logo-text {
             color: var(--primary-gold);
             font-family: 'Playfair Display', serif;
@@ -74,8 +75,8 @@
             display: flex;
             justify-content: center;
             flex-wrap: wrap;
-            gap: 15px;
-            padding: 30px 20px;
+            gap: 10px;
+            padding: 20px 10px;
             position: sticky;
             top: 0;
             background-color: rgba(13, 13, 13, 0.95);
@@ -87,11 +88,11 @@
             background: transparent;
             border: 1px solid var(--primary-gold);
             color: var(--primary-gold);
-            padding: 8px 20px;
+            padding: 8px 18px;
             border-radius: 25px;
             cursor: pointer;
             font-family: 'Poppins', sans-serif;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             transition: all 0.3s ease;
             text-transform: uppercase;
             letter-spacing: 1px;
@@ -140,23 +141,26 @@
 
         .menu-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 20px;
         }
 
+        /* Menu Items with Hover effects for Click */
         .menu-item {
             background: var(--card-bg);
             padding: 20px;
             border-radius: 10px;
             border-left: 3px solid transparent;
             transition: all 0.3s ease;
-            cursor: default;
+            cursor: pointer;
+            position: relative;
         }
 
         .menu-item:hover {
             border-left: 3px solid var(--primary-gold);
-            transform: translateX(10px);
+            transform: translateX(5px);
             background: #222;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
         }
 
         .item-name {
@@ -169,15 +173,340 @@
         .item-desc {
             font-size: 0.85rem;
             color: var(--text-muted);
+            margin-bottom: 10px;
+        }
+
+        .wa-hint {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.75rem;
+            color: var(--whatsapp-green);
+            margin-top: 10px;
+            opacity: 0.7;
+            transition: opacity 0.3s ease;
+        }
+
+        .menu-item:hover .wa-hint {
+            opacity: 1;
+        }
+
+        .wa-icon {
+            width: 14px;
+            height: 14px;
+            fill: currentColor;
         }
 
         /* Footer */
         footer {
             text-align: center;
-            padding: 40px 20px;
+            padding: 40px 20px 60px; /* Extra padding for bottom banner */
             background: #000;
             border-top: 1px solid #333;
             margin-top: 50px;
+        }
+
+        footer p {
+            color: var(--primary-gold);
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+        }
+
+        /* Ad Banner Style (Fixed Bottom) */
+        .bottom-banner {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(212, 175, 55, 0.95); /* Semi-transparent Gold */
+            color: #000;
+            text-align: center;
+            padding: 12px 10px;
+            font-weight: 700;
+            font-size: 1rem;
+            letter-spacing: 1px;
+            z-index: 1000;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.5);
+            backdrop-filter: blur(5px);
+        }
+
+        #ad-text {
+            transition: opacity 0.5s ease-in-out;
+            display: inline-block;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Responsive Settings */
+        @media (max-width: 768px) {
+            .main-logo-img { max-width: 200px; }
+            .sub-logo-text { font-size: 1rem; letter-spacing: 2px; }
+            .filter-btn { padding: 6px 12px; font-size: 0.75rem; }
+            .bottom-banner { font-size: 0.9rem; padding: 10px 5px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo-container">
+            <img src="732748327_122096090637384366_5797980751953902557_n.jpg" alt="The Emperor Logo" class="main-logo-img">
+            <div class="sub-logo-text">Restaurant & Pub</div>
+        </div>
+        <p style="font-size: 1.3rem; margin-top: 25px; color: white; font-family: 'Poppins', sans-serif; text-transform: uppercase; letter-spacing: 1px;">Grand Opening Buffet Menu</p>
+    </header>
+
+    <div class="filters">
+        <button class="filter-btn active" data-filter="all">All Items</button>
+        <button class="filter-btn" data-filter="starters">Starters & Soups</button>
+        <button class="filter-btn" data-filter="salads<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Emperor Restaurant & Pub - Grand Opening Menu</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-gold: #d4af37;
+            --dark-bg: #0d0d0d;
+            --card-bg: #1a1a1a;
+            --text-light: #f4f4f4;
+            --text-muted: #aaaaaa;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--dark-bg);
+            color: var(--text-light);
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+            padding-bottom: 50px; /* Space for the bottom ad banner */
+        }
+
+        h1, h2, h3 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+        }
+
+        /* Header Section */
+        header {
+            text-align: center;
+            padding: 40px 20px 40px;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.9), var(--dark-bg)), url('https://www.transparenttextures.com/patterns/stardust.png');
+            border-bottom: 2px solid var(--primary-gold);
+            animation: fadeInDown 1s ease-out;
+        }
+
+        .logo-container {
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .main-logo-img {
+            max-width: 280px; 
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+        }
+
+        .sub-logo-text {
+            color: var(--primary-gold);
+            font-family: 'Playfair Display', serif;
+            font-size: 1.2rem;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            margin-top: 10px;
+            font-weight: 700;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
+        }
+
+        /* Filter Buttons */
+        .filters {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            padding: 20px;
+            position: sticky;
+            top: 0;
+            background-color: rgba(13, 13, 13, 0.95);
+            z-index: 100;
+            backdrop-filter: blur(5px);
+            border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+        }
+
+        .filter-btn {
+            background: transparent;
+            border: 1px solid var(--primary-gold);
+            color: var(--primary-gold);
+            padding: 8px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .filter-btn:hover, .filter-btn.active {
+            background: var(--primary-gold);
+            color: var(--dark-bg);
+            font-weight: 600;
+        }
+
+        /* Menu Container */
+        .menu-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            min-height: 50vh;
+        }
+
+        .menu-category {
+            display: none;
+            animation: fadeIn 0.8s ease-in-out;
+            margin-bottom: 50px;
+        }
+
+        .menu-category.active {
+            display: block;
+        }
+
+        .category-title {
+            text-align: center;
+            color: var(--primary-gold);
+            font-size: 2rem;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .category-title::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 2px;
+            background: var(--primary-gold);
+            margin: 10px auto 0;
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        /* Menu Item - Updated for Clickability */
+        .menu-item {
+            background: var(--card-bg);
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 3px solid transparent;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .menu-item:hover {
+            border-left: 3px solid var(--primary-gold);
+            transform: translateX(10px);
+            background: #222;
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.1);
+        }
+
+        /* WhatsApp Icon hint on hover */
+        .menu-item::before {
+            content: '\2709  Ask on WhatsApp';
+            position: absolute;
+            right: -150px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: #25D366;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            transition: right 0.4s ease;
+            opacity: 0;
+        }
+
+        .menu-item:hover::before {
+            right: 15px;
+            opacity: 1;
+        }
+
+        .item-name {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-light);
+            margin-bottom: 5px;
+            padding-right: 120px; /* Space for the hover button */
+        }
+
+        .item-desc {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        /* Fixed Ad Banner */
+        .ad-banner-container {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: linear-gradient(90deg, #1a1a1a, #000000, #1a1a1a);
+            border-top: 2px solid var(--primary-gold);
+            z-index: 1000;
+            text-align: center;
+            padding: 10px 5px;
+            box-shadow: 0 -4px 15px rgba(0,0,0,0.8);
+        }
+
+        #ad-text {
+            color: var(--primary-gold);
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            display: inline-block;
+        }
+
+        .fade-anim {
+            animation: textFade 0.5s ease-in-out;
+        }
+
+        @keyframes textFade {
+            0% { opacity: 0; transform: translateY(5px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 40px 20px 60px; /* Extra padding for banner */
+            background: #000;
+            border-top: 1px solid #333;
+            margin-top: 20px;
         }
 
         footer p {
@@ -202,6 +531,9 @@
             .main-logo-img { max-width: 200px; }
             .sub-logo-text { font-size: 1rem; letter-spacing: 2px; }
             .filter-btn { padding: 6px 15px; font-size: 0.8rem; }
+            .item-name { padding-right: 0; }
+            .menu-item::before { display: none; /* Hide hover hint on mobile for cleaner look */ }
+            #ad-text { font-size: 0.9rem; letter-spacing: 1px; }
         }
     </style>
 </head>
@@ -209,9 +541,7 @@
 
     <header>
         <div class="logo-container">
-            <!-- ඔබගේ පින්තූරය මෙහි යොදා ඇත -->
             <img src="732748327_122096090637384366_5797980751953902557_n.jpg" alt="The Emperor Logo" class="main-logo-img">
-            <!-- පින්තූරයට යටින් පෙනෙන ලස්සන අකුරු -->
             <div class="sub-logo-text">Restaurant & Pub</div>
         </div>
         <p style="font-size: 1.5rem; margin-top: 25px; color: white; font-family: 'Poppins', sans-serif; text-transform: uppercase; letter-spacing: 1px;">Grand Opening Buffet Menu</p>
@@ -223,7 +553,7 @@
         <button class="filter-btn" data-filter="salads">Salads</button>
         <button class="filter-btn" data-filter="mains">Mains</button>
         <button class="filter-btn" data-filter="desserts">Desserts</button>
-        <button class="filter-btn" data-filter="live">Live Station & Drinks</button>
+        <button class="filter-btn" data-filter="live">Live Station</button>
     </div>
 
     <div class="menu-container">
@@ -307,6 +637,11 @@
 
     </div>
 
+    <!-- Sticky Bottom Ad Banner -->
+    <div class="ad-banner-container">
+        <span id="ad-text">Unlimited Buffet for Rs. 2,990/-</span>
+    </div>
+
     <footer>
         <p>&#9819; The Emperor Restaurant & Pub</p>
         <p style="font-size: 0.9rem; color: #888;">Kadawatha - Ganemulla Road | Reservations: 076 37 00 807</p>
@@ -319,15 +654,12 @@
 
         filterBtns.forEach(btn => {
             btn.addEventListener('click', () => {
-                // Remove active class from all buttons
                 filterBtns.forEach(b => b.classList.remove('active'));
-                // Add active class to clicked button
                 btn.classList.add('active');
 
                 const filterValue = btn.getAttribute('data-filter');
 
                 categories.forEach(category => {
-                    // Reset animation by triggering reflow
                     category.style.animation = 'none';
                     category.offsetHeight; // trigger reflow
                     category.style.animation = null;
@@ -340,6 +672,49 @@
                 });
             });
         });
+
+        // JavaScript for WhatsApp Redirection on Item Click
+        const menuItems = document.querySelectorAll('.menu-item');
+        const whatsappNumber = "94763700807";
+
+        menuItems.forEach(item => {
+            item.addEventListener('click', () => {
+                // Extracting just the text node of the item name, ignoring HTML spans if any
+                const itemNameDiv = item.querySelector('.item-name');
+                const itemName = itemNameDiv.childNodes[0].nodeValue.trim(); 
+                
+                const message = `Hi, Can I know about this ${itemName}?`;
+                const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+                
+                window.open(whatsappUrl, '_blank');
+            });
+        });
+
+        // JavaScript for Auto-Rotating Ad Banner
+        const adTexts = [
+            "&#10024; Unlimited Buffet for Rs. 2,990/- &#10024;", 
+            "&#127867; BYOB Facility Available &#127867;", 
+            "&#127821; Premium Catering Service &#127821;", 
+            "&#127928; Enjoy Live Music Events &#127928;"
+        ];
+        
+        let adIndex = 0;
+        const adTextElement = document.getElementById('ad-text');
+
+        setInterval(() => {
+            adIndex = (adIndex + 1) % adTexts.length;
+            
+            // Remove animation class to reset
+            adTextElement.classList.remove('fade-anim');
+            
+            // Trigger reflow to restart animation
+            void adTextElement.offsetWidth; 
+            
+            // Change text and add animation class back
+            adTextElement.innerHTML = adTexts[adIndex];
+            adTextElement.classList.add('fade-anim');
+            
+        }, 3500); // Changes every 3.5 seconds
     </script>
 </body>
 </html>
