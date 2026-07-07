@@ -4,15 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Emperor Restaurant & Pub - Grand Opening Menu</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
             --primary-gold: #d4af37;
+            --primary-gold-soft: rgba(212, 175, 55, 0.15);
             --dark-bg: #0d0d0d;
             --card-bg: #1a1a1a;
+            --card-bg-hover: #222;
             --text-light: #f4f4f4;
             --text-muted: #aaaaaa;
             --whatsapp-green: #25D366;
+            --whatsapp-green-dark: #1da851;
         }
 
         * {
@@ -21,14 +26,18 @@
             box-sizing: border-box;
         }
 
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
             background-color: var(--dark-bg);
             color: var(--text-light);
             font-family: 'Poppins', sans-serif;
             line-height: 1.6;
             overflow-x: hidden;
-            /* Banner එකට ඉඩ තැබීමට */
-            padding-bottom: 50px; 
+            /* Reserve space so the ad banner never covers the footer */
+            padding-bottom: 60px;
         }
 
         h1, h2, h3 {
@@ -36,11 +45,12 @@
             font-weight: 700;
         }
 
-        /* Header Section */
+        /* ===================== HEADER ===================== */
         header {
             text-align: center;
             padding: 40px 20px 40px;
-            background: linear-gradient(to bottom, rgba(0,0,0,0.9), var(--dark-bg)), url('https://www.transparenttextures.com/patterns/stardust.png');
+            background: linear-gradient(to bottom, rgba(0,0,0,0.92), var(--dark-bg)),
+                        url('https://www.transparenttextures.com/patterns/stardust.png');
             border-bottom: 2px solid var(--primary-gold);
             animation: fadeInDown 1s ease-out;
         }
@@ -53,10 +63,12 @@
         }
 
         .main-logo-img {
-            max-width: 280px; 
+            max-width: 280px;
+            width: 100%;
             height: auto;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+            border: 1px solid rgba(212, 175, 55, 0.3);
         }
 
         .sub-logo-text {
@@ -65,23 +77,34 @@
             font-size: 1.2rem;
             letter-spacing: 4px;
             text-transform: uppercase;
-            margin-top: 10px;
+            margin-top: 14px;
             font-weight: 700;
             text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
         }
 
-        /* Filter Buttons */
+        .header-tagline {
+            font-size: 1.4rem;
+            margin-top: 22px;
+            color: white;
+            font-family: 'Poppins', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* ===================== FILTERS ===================== */
         .filters {
             display: flex;
             justify-content: center;
             flex-wrap: wrap;
             gap: 10px;
-            padding: 20px 10px;
+            padding: 18px 12px;
             position: sticky;
             top: 0;
-            background-color: rgba(13, 13, 13, 0.95);
+            background-color: rgba(13, 13, 13, 0.96);
             z-index: 100;
-            backdrop-filter: blur(5px);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border-bottom: 1px solid rgba(212, 175, 55, 0.2);
         }
 
         .filter-btn {
@@ -93,22 +116,24 @@
             cursor: pointer;
             font-family: 'Poppins', sans-serif;
             font-size: 0.85rem;
+            font-weight: 500;
             transition: all 0.3s ease;
             text-transform: uppercase;
             letter-spacing: 1px;
         }
 
-        .filter-btn:hover, .filter-btn.active {
+        .filter-btn:hover,
+        .filter-btn.active {
             background: var(--primary-gold);
             color: var(--dark-bg);
             font-weight: 600;
         }
 
-        /* Menu Container */
+        /* ===================== MENU ===================== */
         .menu-container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 20px;
+            padding: 24px 20px;
             min-height: 50vh;
         }
 
@@ -142,25 +167,48 @@
         .menu-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
+            gap: 18px;
         }
 
-        /* Menu Items with Hover effects for Click */
         .menu-item {
             background: var(--card-bg);
-            padding: 20px;
+            padding: 18px 20px;
             border-radius: 10px;
             border-left: 3px solid transparent;
             transition: all 0.3s ease;
             cursor: pointer;
             position: relative;
+            display: block;
+            text-decoration: none;
+            color: inherit;
+            overflow: hidden;
+        }
+
+        .menu-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 0;
+            height: 100%;
+            background: linear-gradient(135deg, transparent 60%, rgba(37, 211, 102, 0.08));
+            transition: width 0.4s ease;
+            pointer-events: none;
         }
 
         .menu-item:hover {
             border-left: 3px solid var(--primary-gold);
             transform: translateX(5px);
-            background: #222;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+            background: var(--card-bg-hover);
+            box-shadow: 0 6px 18px rgba(0,0,0,0.55);
+        }
+
+        .menu-item:hover::before {
+            width: 60%;
+        }
+
+        .menu-item:active {
+            transform: translateX(5px) scale(0.99);
         }
 
         .item-name {
@@ -168,23 +216,26 @@
             font-weight: 600;
             color: var(--text-light);
             margin-bottom: 5px;
+            padding-right: 24px;
+            line-height: 1.4;
         }
 
         .item-desc {
             font-size: 0.85rem;
             color: var(--text-muted);
-            margin-bottom: 10px;
+            margin-bottom: 8px;
         }
 
         .wa-hint {
             display: flex;
             align-items: center;
-            gap: 5px;
+            gap: 6px;
             font-size: 0.75rem;
             color: var(--whatsapp-green);
             margin-top: 10px;
-            opacity: 0.7;
+            opacity: 0.65;
             transition: opacity 0.3s ease;
+            font-weight: 500;
         }
 
         .menu-item:hover .wa-hint {
@@ -195,12 +246,42 @@
             width: 14px;
             height: 14px;
             fill: currentColor;
+            flex-shrink: 0;
         }
 
-        /* Footer */
+        /* Small WhatsApp badge in the corner of each card */
+        .wa-badge {
+            position: absolute;
+            top: 14px;
+            right: 14px;
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            background: var(--whatsapp-green);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transform: scale(0.6);
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(37, 211, 102, 0.4);
+        }
+
+        .menu-item:hover .wa-badge {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .wa-badge svg {
+            width: 14px;
+            height: 14px;
+            fill: #fff;
+        }
+
+        /* ===================== FOOTER ===================== */
         footer {
             text-align: center;
-            padding: 40px 20px 60px; /* Extra padding for bottom banner */
+            padding: 40px 20px 60px;
             background: #000;
             border-top: 1px solid #333;
             margin-top: 50px;
@@ -212,328 +293,253 @@
             margin-bottom: 10px;
         }
 
-        /* Ad Banner Style (Fixed Bottom) */
-        .bottom-banner {
+        footer .footer-sub {
+            font-size: 0.9rem;
+            color: #888;
+        }
+
+        /* ===================== AD BANNER (NON-INTRUSIVE) ===================== */
+        /*
+         * Design principles to ensure it does NOT disturb the customer:
+         *  - Thin (~40px) and elegant, sits at the bottom edge
+         *  - Has a dismiss (X) button — once closed, stays closed for the session
+         *  - Auto-pauses rotation on hover / touch
+         *  - Auto-collapses into a tiny pill after a few cycles so it almost disappears
+         *  - Reopens on scroll-up so it stays out of the way while reading
+         *  - High contrast text, but no flashing / no autoplay audio / no modal
+         */
+        .ad-banner {
             position: fixed;
             bottom: 0;
             left: 0;
             width: 100%;
-            background: rgba(212, 175, 55, 0.95); /* Semi-transparent Gold */
-            color: #000;
+            background: linear-gradient(90deg, #b8941f 0%, #d4af37 50%, #b8941f 100%);
+            color: #1a1a1a;
             text-align: center;
-            padding: 12px 10px;
-            font-weight: 700;
-            font-size: 1rem;
-            letter-spacing: 1px;
+            padding: 10px 48px 10px 16px; /* right padding leaves room for X */
+            font-weight: 600;
+            font-size: 0.92rem;
+            letter-spacing: 0.5px;
             z-index: 1000;
-            box-shadow: 0 -2px 10px rgba(0,0,0,0.5);
-            backdrop-filter: blur(5px);
+            box-shadow: 0 -3px 14px rgba(0,0,0,0.45);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+            transition: transform 0.45s cubic-bezier(0.4, 0, 0.2, 1),
+                        opacity 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 42px;
         }
 
-        #ad-text {
-            transition: opacity 0.5s ease-in-out;
-            display: inline-block;
+        .ad-banner.dismissed {
+            transform: translateY(110%);
+            pointer-events: none;
         }
 
-        /* Animations */
+        /* Collapsed "pill" state — barely visible, doesn't disturb */
+        .ad-banner.collapsed {
+            transform: translateY(calc(100% - 14px));
+        }
+
+        .ad-banner.collapsed:hover,
+        .ad-banner.collapsed:focus-within {
+            transform: translateY(0);
+        }
+
+        .ad-text {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: opacity 0.4s ease-in-out;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 100%;
+        }
+
+        .ad-text .ad-icon {
+            font-size: 1.05em;
+            line-height: 1;
+        }
+
+        /* Close button */
+        .ad-close {
+            position: absolute;
+            top: 50%;
+            right: 10px;
+            transform: translateY(-50%);
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            border: none;
+            background: rgba(0, 0, 0, 0.35);
+            color: #fff;
+            font-size: 16px;
+            line-height: 1;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s ease, transform 0.2s ease;
+            padding: 0;
+        }
+
+        .ad-close:hover {
+            background: rgba(0, 0, 0, 0.7);
+            transform: translateY(-50%) rotate(90deg);
+        }
+
+        /* Reopen button (tiny pill, shown only after dismissal) */
+        .ad-reopen {
+            position: fixed;
+            bottom: 12px;
+            right: 12px;
+            background: var(--primary-gold);
+            color: #1a1a1a;
+            border: none;
+            border-radius: 999px;
+            padding: 6px 14px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+            z-index: 1001;
+            opacity: 0;
+            transform: translateY(20px);
+            pointer-events: none;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            letter-spacing: 0.5px;
+        }
+
+        .ad-reopen.visible {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+
+        .ad-reopen:hover {
+            background: #e6c14b;
+        }
+
+        /* Subtle progress dots so the user knows it's rotating */
+        .ad-dots {
+            position: absolute;
+            left: 50%;
+            bottom: 3px;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 4px;
+            opacity: 0.55;
+        }
+
+        .ad-dots span {
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            background: #1a1a1a;
+            opacity: 0.35;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        .ad-dots span.active {
+            opacity: 1;
+            transform: scale(1.4);
+        }
+
+        /* ===================== ANIMATIONS ===================== */
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+            to   { opacity: 1; transform: translateY(0); }
         }
 
         @keyframes fadeInDown {
             from { opacity: 0; transform: translateY(-30px); }
-            to { opacity: 1; transform: translateY(0); }
+            to   { opacity: 1; transform: translateY(0); }
         }
 
-        /* Responsive Settings */
-        @media (max-width: 768px) {
-            .main-logo-img { max-width: 200px; }
-            .sub-logo-text { font-size: 1rem; letter-spacing: 2px; }
-            .filter-btn { padding: 6px 12px; font-size: 0.75rem; }
-            .bottom-banner { font-size: 0.9rem; padding: 10px 5px; }
-        }
-    </style>
-</head>
-<body>
-
-    <header>
-        <div class="logo-container">
-            <img src="732748327_122096090637384366_5797980751953902557_n.jpg" alt="The Emperor Logo" class="main-logo-img">
-            <div class="sub-logo-text">Restaurant & Pub</div>
-        </div>
-        <p style="font-size: 1.3rem; margin-top: 25px; color: white; font-family: 'Poppins', sans-serif; text-transform: uppercase; letter-spacing: 1px;">Grand Opening Buffet Menu</p>
-    </header>
-
-    <div class="filters">
-        <button class="filter-btn active" data-filter="all">All Items</button>
-        <button class="filter-btn" data-filter="starters">Starters & Soups</button>
-        <button class="filter-btn" data-filter="salads<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Emperor Restaurant & Pub - Grand Opening Menu</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --primary-gold: #d4af37;
-            --dark-bg: #0d0d0d;
-            --card-bg: #1a1a1a;
-            --text-light: #f4f4f4;
-            --text-muted: #aaaaaa;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            background-color: var(--dark-bg);
-            color: var(--text-light);
-            font-family: 'Poppins', sans-serif;
-            line-height: 1.6;
-            overflow-x: hidden;
-            padding-bottom: 50px; /* Space for the bottom ad banner */
-        }
-
-        h1, h2, h3 {
-            font-family: 'Playfair Display', serif;
-            font-weight: 700;
-        }
-
-        /* Header Section */
-        header {
-            text-align: center;
-            padding: 40px 20px 40px;
-            background: linear-gradient(to bottom, rgba(0,0,0,0.9), var(--dark-bg)), url('https://www.transparenttextures.com/patterns/stardust.png');
-            border-bottom: 2px solid var(--primary-gold);
-            animation: fadeInDown 1s ease-out;
-        }
-
-        .logo-container {
-            margin-bottom: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .main-logo-img {
-            max-width: 280px; 
-            height: auto;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
-        }
-
-        .sub-logo-text {
-            color: var(--primary-gold);
-            font-family: 'Playfair Display', serif;
-            font-size: 1.2rem;
-            letter-spacing: 4px;
-            text-transform: uppercase;
-            margin-top: 10px;
-            font-weight: 700;
-            text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
-        }
-
-        /* Filter Buttons */
-        .filters {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 15px;
-            padding: 20px;
-            position: sticky;
-            top: 0;
-            background-color: rgba(13, 13, 13, 0.95);
-            z-index: 100;
-            backdrop-filter: blur(5px);
-            border-bottom: 1px solid rgba(212, 175, 55, 0.2);
-        }
-
-        .filter-btn {
-            background: transparent;
-            border: 1px solid var(--primary-gold);
-            color: var(--primary-gold);
-            padding: 8px 20px;
-            border-radius: 25px;
-            cursor: pointer;
-            font-family: 'Poppins', sans-serif;
-            font-size: 0.9rem;
-            transition: all 0.3s ease;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .filter-btn:hover, .filter-btn.active {
-            background: var(--primary-gold);
-            color: var(--dark-bg);
-            font-weight: 600;
-        }
-
-        /* Menu Container */
-        .menu-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 40px 20px;
-            min-height: 50vh;
-        }
-
-        .menu-category {
-            display: none;
-            animation: fadeIn 0.8s ease-in-out;
-            margin-bottom: 50px;
-        }
-
-        .menu-category.active {
-            display: block;
-        }
-
-        .category-title {
-            text-align: center;
-            color: var(--primary-gold);
-            font-size: 2rem;
-            margin-bottom: 30px;
-            position: relative;
-        }
-
-        .category-title::after {
-            content: '';
-            display: block;
-            width: 80px;
-            height: 2px;
-            background: var(--primary-gold);
-            margin: 10px auto 0;
-        }
-
-        .menu-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-        }
-
-        /* Menu Item - Updated for Clickability */
-        .menu-item {
-            background: var(--card-bg);
-            padding: 20px;
-            border-radius: 10px;
-            border-left: 3px solid transparent;
-            transition: all 0.3s ease;
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .menu-item:hover {
-            border-left: 3px solid var(--primary-gold);
-            transform: translateX(10px);
-            background: #222;
-            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.1);
-        }
-
-        /* WhatsApp Icon hint on hover */
-        .menu-item::before {
-            content: '\2709  Ask on WhatsApp';
-            position: absolute;
-            right: -150px;
-            top: 50%;
-            transform: translateY(-50%);
-            background: #25D366;
-            color: white;
-            padding: 5px 10px;
-            border-radius: 20px;
-            font-size: 0.75rem;
-            transition: right 0.4s ease;
-            opacity: 0;
-        }
-
-        .menu-item:hover::before {
-            right: 15px;
-            opacity: 1;
-        }
-
-        .item-name {
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: var(--text-light);
-            margin-bottom: 5px;
-            padding-right: 120px; /* Space for the hover button */
-        }
-
-        .item-desc {
-            font-size: 0.85rem;
-            color: var(--text-muted);
-        }
-
-        /* Fixed Ad Banner */
-        .ad-banner-container {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            background: linear-gradient(90deg, #1a1a1a, #000000, #1a1a1a);
-            border-top: 2px solid var(--primary-gold);
-            z-index: 1000;
-            text-align: center;
-            padding: 10px 5px;
-            box-shadow: 0 -4px 15px rgba(0,0,0,0.8);
-        }
-
-        #ad-text {
-            color: var(--primary-gold);
-            font-family: 'Poppins', sans-serif;
-            font-size: 1.1rem;
-            font-weight: 600;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            display: inline-block;
+        @keyframes fadeAdText {
+            from { opacity: 0; transform: translateY(6px); }
+            to   { opacity: 1; transform: translateY(0); }
         }
 
         .fade-anim {
-            animation: textFade 0.5s ease-in-out;
+            animation: fadeAdText 0.5s ease-out;
         }
 
-        @keyframes textFade {
-            0% { opacity: 0; transform: translateY(5px); }
-            100% { opacity: 1; transform: translateY(0); }
-        }
-
-        /* Footer */
-        footer {
-            text-align: center;
-            padding: 40px 20px 60px; /* Extra padding for banner */
-            background: #000;
-            border-top: 1px solid #333;
-            margin-top: 20px;
-        }
-
-        footer p {
-            color: var(--primary-gold);
-            font-size: 1.1rem;
-            margin-bottom: 10px;
-        }
-
-        /* Animations */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes fadeInDown {
-            from { opacity: 0; transform: translateY(-30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* Responsive */
+        /* ===================== RESPONSIVE ===================== */
         @media (max-width: 768px) {
+            body { padding-bottom: 54px; }
+
             .main-logo-img { max-width: 200px; }
             .sub-logo-text { font-size: 1rem; letter-spacing: 2px; }
-            .filter-btn { padding: 6px 15px; font-size: 0.8rem; }
-            .item-name { padding-right: 0; }
-            .menu-item::before { display: none; /* Hide hover hint on mobile for cleaner look */ }
-            #ad-text { font-size: 0.9rem; letter-spacing: 1px; }
+            .header-tagline { font-size: 1.05rem; }
+
+            .filters {
+                padding: 12px 8px;
+                gap: 7px;
+                /* Horizontal scroll on very small screens */
+                flex-wrap: nowrap;
+                overflow-x: auto;
+                justify-content: flex-start;
+                -webkit-overflow-scrolling: touch;
+                scrollbar-width: none;
+            }
+            .filters::-webkit-scrollbar { display: none; }
+
+            .filter-btn {
+                padding: 6px 12px;
+                font-size: 0.72rem;
+                flex-shrink: 0;
+                letter-spacing: 0.5px;
+            }
+
+            .menu-container { padding: 18px 14px; }
+            .menu-grid {
+                grid-template-columns: 1fr;
+                gap: 14px;
+            }
+            .menu-item { padding: 16px 18px; }
+            .item-name { font-size: 1rem; padding-right: 36px; }
+            .item-desc { font-size: 0.8rem; }
+
+            /* Always show WhatsApp hint on mobile (no hover) */
+            .wa-hint { opacity: 1; }
+            .wa-badge {
+                opacity: 1;
+                transform: scale(1);
+                width: 24px;
+                height: 24px;
+            }
+            .wa-badge svg { width: 13px; height: 13px; }
+
+            .category-title { font-size: 1.6rem; margin-bottom: 22px; }
+
+            .ad-banner {
+                font-size: 0.8rem;
+                padding: 8px 42px 8px 12px;
+                min-height: 38px;
+            }
+            .ad-close {
+                width: 22px;
+                height: 22px;
+                font-size: 14px;
+                right: 8px;
+            }
+            .ad-dots { bottom: 2px; }
+        }
+
+        @media (max-width: 380px) {
+            .ad-banner { font-size: 0.74rem; }
+            .header-tagline { font-size: 0.95rem; }
+        }
+
+        /* Reduced motion preference */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                transition-duration: 0.01ms !important;
+            }
         }
     </style>
 </head>
@@ -541,114 +547,124 @@
 
     <header>
         <div class="logo-container">
-            <img src="732748327_122096090637384366_5797980751953902557_n.jpg" alt="The Emperor Logo" class="main-logo-img">
-            <div class="sub-logo-text">Restaurant & Pub</div>
+            <img src="https://mrranshika.github.io/theemperor_authenticfoodmenu/732748327_122096090637384366_5797980751953902557_n.jpg"
+                 alt="The Emperor Logo" class="main-logo-img"
+                 onerror="this.style.display='none';">
+            <div class="sub-logo-text">Restaurant &amp; Pub</div>
         </div>
-        <p style="font-size: 1.5rem; margin-top: 25px; color: white; font-family: 'Poppins', sans-serif; text-transform: uppercase; letter-spacing: 1px;">Grand Opening Buffet Menu</p>
+        <p class="header-tagline">Grand Opening Buffet Menu</p>
     </header>
 
-    <div class="filters">
+    <nav class="filters" aria-label="Menu category filter">
         <button class="filter-btn active" data-filter="all">All Items</button>
-        <button class="filter-btn" data-filter="starters">Starters & Soups</button>
+        <button class="filter-btn" data-filter="starters">Starters &amp; Soups</button>
         <button class="filter-btn" data-filter="salads">Salads</button>
         <button class="filter-btn" data-filter="mains">Mains</button>
         <button class="filter-btn" data-filter="desserts">Desserts</button>
         <button class="filter-btn" data-filter="live">Live Station</button>
-    </div>
+    </nav>
 
-    <div class="menu-container">
-        
+    <main class="menu-container">
+
         <!-- Starters & Soups -->
-        <div class="menu-category active" data-category="starters">
-            <h2 class="category-title">Starters & Soups</h2>
+        <section class="menu-category active" data-category="starters">
+            <h2 class="category-title">Starters &amp; Soups</h2>
             <div class="menu-grid">
-                <div class="menu-item"><div class="item-name">Vegetable Wrap</div></div>
-                <div class="menu-item"><div class="item-name">Egg Crispy Baskets</div></div>
-                <div class="menu-item"><div class="item-name">Prawn Cocktail</div></div>
-                <div class="menu-item"><div class="item-name">Brown Hummus & Bread</div></div>
-                <div class="menu-item"><div class="item-name">Chinese Chicken Soup</div></div>
-                <div class="menu-item"><div class="item-name">Vegetable Broth</div></div>
+                <a class="menu-item" data-name="Vegetable Wrap"><div class="item-name">Vegetable Wrap</div><div class="wa-hint"><svg class="wa-icon" viewBox="0 0 24 24"><path d="M17.6 6.32A7.85 7.85 0 0 0 12.05 4 7.94 7.94 0 0 0 4.1 11.94a7.84 7.84 0 0 0 1.07 3.97L4 20l4.2-1.1a7.93 7.93 0 0 0 3.85 1h.01a7.94 7.94 0 0 0 7.94-7.94 7.85 7.85 0 0 0-2.4-5.64ZM12.05 18.5h-.01a6.55 6.55 0 0 1-3.33-.92l-.24-.14-2.49.65.67-2.43-.16-.25a6.5 6.5 0 0 1 5.66-9.95 6.5 6.5 0 0 1 6.5 6.5 6.51 6.51 0 0 1-6.6 6.54Zm3.6-4.88c-.2-.1-1.17-.58-1.36-.64-.18-.07-.31-.1-.45.1-.13.2-.51.64-.63.77-.12.13-.23.15-.43.05-.2-.1-.84-.31-1.6-.99-.6-.53-1-1.18-1.12-1.38-.12-.2 0-.3.09-.4l.3-.35c.1-.12.13-.2.2-.34.06.13.06.25 0 .37-.07.13-.13.22-.18.32-.06.1-.03.18.02.27.05.1.45.7.62.95.21.33.46.55.7.78.16.14.27.24.42.32.2.1.36.07.49-.04.13-.1.5-.46.63-.62.13-.16.26-.13.43-.08.17.05 1.1.52 1.3.62.2.1.32.14.37.22.05.08.05.45-.1.66-.13.21-.62.6-.86.7-.27.1-.59.16-.95.04-.36-.12-.81-.27-1.32-.55-.46-.25-.91-.6-1.36-1.04-.4-.4-.74-.85-1.04-1.36-.28-.5-.43-.95-.55-1.32-.12-.36-.06-.69.04-.86.1-.18.5-.6.7-.74.18-.13.34-.1.45 0 .1.1.2.22.3.34.1.12.16.2.2.32.05.13.05.24 0 .36-.05.13-.3.45-.4.6Z"/></svg> Tap to ask on WhatsApp</div><span class="wa-badge"><svg viewBox="0 0 24 24"><path d="M17.6 6.32A7.85 7.85 0 0 0 12.05 4 7.94 7.94 0 0 0 4.1 11.94a7.84 7.84 0 0 0 1.07 3.97L4 20l4.2-1.1a7.93 7.93 0 0 0 3.85 1h.01a7.94 7.94 0 0 0 7.94-7.94 7.85 7.85 0 0 0-2.4-5.64ZM12.05 18.5h-.01a6.55 6.55 0 0 1-3.33-.92l-.24-.14-2.49.65.67-2.43-.16-.25a6.5 6.5 0 0 1 5.66-9.95 6.5 6.5 0 0 1 6.5 6.5 6.51 6.51 0 0 1-6.6 6.54Z"/></svg></span></a>
+                <a class="menu-item" data-name="Egg Crispy Baskets"><div class="item-name">Egg Crispy Baskets</div><div class="wa-hint"><svg class="wa-icon" viewBox="0 0 24 24"><path d="M17.6 6.32A7.85 7.85 0 0 0 12.05 4 7.94 7.94 0 0 0 4.1 11.94a7.84 7.84 0 0 0 1.07 3.97L4 20l4.2-1.1a7.93 7.93 0 0 0 3.85 1h.01a7.94 7.94 0 0 0 7.94-7.94 7.85 7.85 0 0 0-2.4-5.64Z"/></svg> Tap to ask on WhatsApp</div><span class="wa-badge"><svg viewBox="0 0 24 24"><path d="M17.6 6.32A7.85 7.85 0 0 0 12.05 4 7.94 7.94 0 0 0 4.1 11.94a7.84 7.84 0 0 0 1.07 3.97L4 20l4.2-1.1a7.93 7.93 0 0 0 3.85 1h.01a7.94 7.94 0 0 0 7.94-7.94 7.85 7.85 0 0 0-2.4-5.64Z"/></svg></span></a>
+                <a class="menu-item" data-name="Prawn Cocktail"><div class="item-name">Prawn Cocktail</div><div class="wa-hint"><svg class="wa-icon" viewBox="0 0 24 24"><path d="M17.6 6.32A7.85 7.85 0 0 0 12.05 4 7.94 7.94 0 0 0 4.1 11.94a7.84 7.84 0 0 0 1.07 3.97L4 20l4.2-1.1a7.93 7.93 0 0 0 3.85 1h.01a7.94 7.94 0 0 0 7.94-7.94 7.85 7.85 0 0 0-2.4-5.64Z"/></svg> Tap to ask on WhatsApp</div><span class="wa-badge"><svg viewBox="0 0 24 24"><path d="M17.6 6.32A7.85 7.85 0 0 0 12.05 4 7.94 7.94 0 0 0 4.1 11.94a7.84 7.84 0 0 0 1.07 3.97L4 20l4.2-1.1a7.93 7.93 0 0 0 3.85 1h.01a7.94 7.94 0 0 0 7.94-7.94 7.85 7.85 0 0 0-2.4-5.64Z"/></svg></span></a>
+                <a class="menu-item" data-name="Brown Hummus & Bread"><div class="item-name">Brown Hummus &amp; Bread</div><div class="wa-hint"><svg class="wa-icon" viewBox="0 0 24 24"><path d="M17.6 6.32A7.85 7.85 0 0 0 12.05 4 7.94 7.94 0 0 0 4.1 11.94a7.84 7.84 0 0 0 1.07 3.97L4 20l4.2-1.1a7.93 7.93 0 0 0 3.85 1h.01a7.94 7.94 0 0 0 7.94-7.94 7.85 7.85 0 0 0-2.4-5.64Z"/></svg> Tap to ask on WhatsApp</div><span class="wa-badge"><svg viewBox="0 0 24 24"><path d="M17.6 6.32A7.85 7.85 0 0 0 12.05 4 7.94 7.94 0 0 0 4.1 11.94a7.84 7.84 0 0 0 1.07 3.97L4 20l4.2-1.1a7.93 7.93 0 0 0 3.85 1h.01a7.94 7.94 0 0 0 7.94-7.94 7.85 7.85 0 0 0-2.4-5.64Z"/></svg></span></a>
+                <a class="menu-item" data-name="Chinese Chicken Soup"><div class="item-name">Chinese Chicken Soup</div><div class="wa-hint"><svg class="wa-icon" viewBox="0 0 24 24"><path d="M17.6 6.32A7.85 7.85 0 0 0 12.05 4 7.94 7.94 0 0 0 4.1 11.94a7.84 7.84 0 0 0 1.07 3.97L4 20l4.2-1.1a7.93 7.93 0 0 0 3.85 1h.01a7.94 7.94 0 0 0 7.94-7.94 7.85 7.85 0 0 0-2.4-5.64Z"/></svg> Tap to ask on WhatsApp</div><span class="wa-badge"><svg viewBox="0 0 24 24"><path d="M17.6 6.32A7.85 7.85 0 0 0 12.05 4 7.94 7.94 0 0 0 4.1 11.94a7.84 7.84 0 0 0 1.07 3.97L4 20l4.2-1.1a7.93 7.93 0 0 0 3.85 1h.01a7.94 7.94 0 0 0 7.94-7.94 7.85 7.85 0 0 0-2.4-5.64Z"/></svg></span></a>
+                <a class="menu-item" data-name="Vegetable Broth"><div class="item-name">Vegetable Broth</div><div class="wa-hint"><svg class="wa-icon" viewBox="0 0 24 24"><path d="M17.6 6.32A7.85 7.85 0 0 0 12.05 4 7.94 7.94 0 0 0 4.1 11.94a7.84 7.84 0 0 0 1.07 3.97L4 20l4.2-1.1a7.93 7.93 0 0 0 3.85 1h.01a7.94 7.94 0 0 0 7.94-7.94 7.85 7.85 0 0 0-2.4-5.64Z"/></svg> Tap to ask on WhatsApp</div><span class="wa-badge"><svg viewBox="0 0 24 24"><path d="M17.6 6.32A7.85 7.85 0 0 0 12.05 4 7.94 7.94 0 0 0 4.1 11.94a7.84 7.84 0 0 0 1.07 3.97L4 20l4.2-1.1a7.93 7.93 0 0 0 3.85 1h.01a7.94 7.94 0 0 0 7.94-7.94 7.85 7.85 0 0 0-2.4-5.64Z"/></svg></span></a>
             </div>
-        </div>
+        </section>
 
         <!-- Salads -->
-        <div class="menu-category active" data-category="salads">
+        <section class="menu-category active" data-category="salads">
             <h2 class="category-title">Salads</h2>
             <div class="menu-grid">
-                <div class="menu-item"><div class="item-name">Green Salad</div></div>
-                <div class="menu-item"><div class="item-name">Mix Bean Salad</div></div>
-                <div class="menu-item"><div class="item-name">Chicken Salad</div></div>
-                <div class="menu-item"><div class="item-name">Beetroot Salad with Feta Cheese</div></div>
-                <div class="menu-item">
-                    <div class="item-name">Fresh Salad</div>
-                    <div class="item-desc">Tomato Slice, Onion Ring, Cabbage, Carrot, Lettuce, Cucumber</div>
-                </div>
-                <div class="menu-item"><div class="item-name">Kachumber Salad</div></div>
-                <div class="menu-item"><div class="item-name">Mutabal</div></div>
+                <a class="menu-item" data-name="Green Salad"><div class="item-name">Green Salad</div><div class="wa-hint"><svg class="wa-icon" viewBox="0 0 24 24"><path d="M17.6 6.32A7.85 7.85 0 0 0 12.05 4 7.94 7.94 0 0 0 4.1 11.94a7.84 7.84 0 0 0 1.07 3.97L4 20l4.2-1.1a7.93 7.93 0 0 0 3.85 1h.01a7.94 7.94 0 0 0 7.94-7.94 7.85 7.85 0 0 0-2.4-5.64Z"/></svg> Tap to ask on WhatsApp</div><span class="wa-badge"><svg viewBox="0 0 24 24"><path d="M17.6 6.32A7.85 7.85 0 0 0 12.05 4 7.94 7.94 0 0 0 4.1 11.94a7.84 7.84 0 0 0 1.07 3.97L4 20l4.2-1.1a7.93 7.93 0 0 0 3.85 1h.01a7.94 7.94 0 0 0 7.94-7.94 7.85 7.85 0 0 0-2.4-5.64Z"/></svg></span></a>
+                <a class="menu-item" data-name="Mix Bean Salad"><div class="item-name">Mix Bean Salad</div><div class="wa-hint"><svg class="wa-icon" viewBox="0 0 24 24"><path d="M17.6 6.32A7.85 7.85 0 0 0 12.05 4 7.94 7.94 0 0 0 4.1 11.94a7.84 7.84 0 0 0 1.07 3.97L4 20l4.2-1.1a7.93 7.93 0 0 0 3.85 1h.01a7.94 7.94 0 0 0 7.94-7.94 7.85 7.85 0 0 0-2.4-5.64Z"/></svg> Tap to ask on WhatsApp</div><span class="wa-badge"><svg viewBox="0 0 24 24"><path d="M17.6 6.32A7.85 7.85 0 0 0 12.05 4 7.94 7.94 0 0 0 4.1 11.94a7.84 7.84 0 0 0 1.07 3.97L4 20l4.2-1.1a7.93 7.93 0 0 0 3.85 1h.01a7.94 7.94 0 0 0 7.94-7.94 7.85 7.85 0 0 0-2.4-5.64Z"/></svg></span></a>
+                <a class="menu-item" data-name="Chicken Salad"><div class="item-name">Chicken Salad</div><div class="wa-hint"><svg class="wa-icon" viewBox="0 0 24 24"><path d="M17.6 6.32A7.85 7.85 0 0 0 12.05 4 7.94 7.94 0 0 0 4.1 11.94a7.84 7.84 0 0 0 1.07 3.97L4 20l4.2-1.1a7.93 7.93 0 0 0 3.85 1h.01a7.94 7.94 0 0 0 7.94-7.94 7.85 7.85 0 0 0-2.4-5.64Z"/></svg> Tap to ask on WhatsApp</div><span class="wa-badge"><svg viewBox="0 0 24 24"><path d="M17.6 6.32A7.85 7.85 0 0 0 12.05 4 7.94 7.94 0 0 0 4.1 11.94a7.84 7.84 0 0 0 1.07 3.97L4 20l4.2-1.1a7.93 7.93 0 0 0 3.85 1h.01a7.94 7.94 0 0 0 7.94-7.94 7.85 7.85 0 0 0-2.4-5.64Z"/></svg></span></a>
+                <a class="menu-item" data-name="Beetroot Salad with Feta Cheese"><div class="item-name">Beetroot Salad with Feta Cheese</div><div class="wa-hint"><svg class="wa-icon" viewBox="0 0 24 24"><path d="M17.6 6.32A7.85 7.85 0 0 0 12.05 4 7.94 7.94 0 0 0 4.1 11.94a7.84 7.84 0 0 0 1.07 3.97L4 20l4.2-1.1a7.93 7.93 0 0 0 3.85 1h.01a7.94 7.94 0 0 0 7.94-7.94 7.85 7.85 0 0 0-2.4-5.64Z"/></svg> Tap to ask on WhatsApp</div><span class="wa-badge"><svg viewBox="0 0 24 24"><path d="M17.6 6.32A7.85 7.85 0 0 0 12.05 4 7.94 7.94 0 0 0 4.1 11.94a7.84 7.84 0 0 0 1.07 3.97L4 20l4.2-1.1a7.93 7.93 0 0 0 3.85 1h.01a7.94 7.94 0 0 0 7.94-7.94 7.85 7.85 0 0 0-2.4-5.64Z"/></svg></span></a>
+                <a class="menu-item" data-name="Fresh Salad"><div class="item-name">Fresh Salad</div><div class="item-desc">Tomato Slice, Onion Ring, Cabbage, Carrot, Lettuce, Cucumber</div><div class="wa-hint"><svg class="wa-icon" viewBox="0 0 24 24"><path d="M17.6 6.32A7.85 7.85 0 0 0 12.05 4 7.94 7.94 0 0 0 4.1 11.94a7.84 7.84 0 0 0 1.07 3.97L4 20l4.2-1.1a7.93 7.93 0 0 0 3.85 1h.01a7.94 7.94 0 0 0 7.94-7.94 7.85 7.85 0 0 0-2.4-5.64Z"/></svg> Tap to ask on WhatsApp</div><span class="wa-badge"><svg viewBox="0 0 24 24"><path d="M17.6 6.32A7.85 7.85 0 0 0 12.05 4 7.94 7.94 0 0 0 4.1 11.94a7.84 7.84 0 0 0 1.07 3.97L4 20l4.2-1.1a7.93 7.93 0 0 0 3.85 1h.01a7.94 7.94 0 0 0 7.94-7.94 7.85 7.85 0 0 0-2.4-5.64Z"/></svg></span></a>
+                <a class="menu-item" data-name="Kachumber Salad"><div class="item-name">Kachumber Salad</div><div class="wa-hint"><svg class="wa-icon" viewBox="0 0 24 24"><path d="M17.6 6.32A7.85 7.85 0 0 0 12.05 4 7.94 7.94 0 0 0 4.1 11.94a7.84 7.84 0 0 0 1.07 3.97L4 20l4.2-1.1a7.93 7.93 0 0 0 3.85 1h.01a7.94 7.94 0 0 0 7.94-7.94 7.85 7.85 0 0 0-2.4-5.64Z"/></svg> Tap to ask on WhatsApp</div><span class="wa-badge"><svg viewBox="0 0 24 24"><path d="M17.6 6.32A7.85 7.85 0 0 0 12.05 4 7.94 7.94 0 0 0 4.1 11.94a7.84 7.84 0 0 0 1.07 3.97L4 20l4.2-1.1a7.93 7.93 0 0 0 3.85 1h.01a7.94 7.94 0 0 0 7.94-7.94 7.85 7.85 0 0 0-2.4-5.64Z"/></svg></span></a>
+                <a class="menu-item" data-name="Mutabal"><div class="item-name">Mutabal</div><div class="wa-hint"><svg class="wa-icon" viewBox="0 0 24 24"><path d="M17.6 6.32A7.85 7.85 0 0 0 12.05 4 7.94 7.94 0 0 0 4.1 11.94a7.84 7.84 0 0 0 1.07 3.97L4 20l4.2-1.1a7.93 7.93 0 0 0 3.85 1h.01a7.94 7.94 0 0 0 7.94-7.94 7.85 7.85 0 0 0-2.4-5.64Z"/></svg> Tap to ask on WhatsApp</div><span class="wa-badge"><svg viewBox="0 0 24 24"><path d="M17.6 6.32A7.85 7.85 0 0 0 12.05 4 7.94 7.94 0 0 0 4.1 11.94a7.84 7.84 0 0 0 1.07 3.97L4 20l4.2-1.1a7.93 7.93 0 0 0 3.85 1h.01a7.94 7.94 0 0 0 7.94-7.94 7.85 7.85 0 0 0-2.4-5.64Z"/></svg></span></a>
             </div>
-        </div>
+        </section>
 
-        <!-- Mains -->
-        <div class="menu-category active" data-category="mains">
-            <h2 class="category-title">Mains & Curries</h2>
+        <!-- Mains & Curries -->
+        <section class="menu-category active" data-category="mains">
+            <h2 class="category-title">Mains &amp; Curries</h2>
             <div class="menu-grid">
-                <div class="menu-item"><div class="item-name">Seafood Rice</div></div>
-                <div class="menu-item"><div class="item-name">Vegetable Noodles</div></div>
-                <div class="menu-item"><div class="item-name">Chicken Lasagna</div></div>
-                <div class="menu-item"><div class="item-name">Penne Pasta Pomodoro</div></div>
-                <div class="menu-item"><div class="item-name">Tandoori Chicken <span style="color:var(--text-muted); font-size:0.9rem;">OR</span> Chicken Korma</div></div>
-                <div class="menu-item"><div class="item-name">Fish Ambul Thiyal</div></div>
-                <div class="menu-item"><div class="item-name">Potato Tempered</div></div>
-                <div class="menu-item"><div class="item-name">Brinjal Moju</div></div>
-                <div class="menu-item"><div class="item-name">Cashew & Green Peas Curry</div></div>
-                <div class="menu-item"><div class="item-name">Cutlets</div></div>
-                <div class="menu-item"><div class="item-name">Dry Dhal Curry</div></div>
-                <div class="menu-item"><div class="item-name">Chili Pork <span style="color:var(--text-muted); font-size:0.9rem;">OR</span> Black Pork</div></div>
-                <div class="menu-item"><div class="item-name">Papadum <span style="color:var(--text-muted); font-size:0.9rem;">OR</span> Prawn Crackers</div></div>
-                <div class="menu-item"><div class="item-name">Grilled Beef Jumbo Sausage</div></div>
+                <a class="menu-item" data-name="Seafood Rice"><div class="item-name">Seafood Rice</div><div class="wa-hint"><svg class="wa-icon" viewBox="0 0 24 24"><path d="M17.6 6.32A7.85 7.85 0 0 0 12.05 4 7.94 7.94 0 0 0 4.1 11.94a7.84 7.84 0 0 0 1.07 3.97L4 20l4.2-1.1a7.93 7.93 0 0 0 3.85 1h.01a7.94 7.94 0 0 0 7.94-7.94 7.85 7.85 0 0 0-2.4-5.64Z"/></svg> Tap to ask on WhatsApp</div><span class="wa-badge"><svg viewBox="0 0 24 24"><path d="M17.6 6.32A7.85 7.85 0 0 0 12.05 4 7.94 7.94 0 0 0 4.1 11.94a7.84 7.84 0 0 0 1.07 3.97L4 20l4.2-1.1a7.93 7.93 0 0 0 3.85 1h.01a7.94 7.94 0 0 0 7.94-7.94 7.85 7.85 0 0 0-2.4-5.64Z"/></svg></span></a>
+                <a class="menu-item" data-name="Vegetable Noodles"><div class="item-name">Vegetable Noodles</div><div class="wa-hint"><svg class="wa-icon" viewBox="0 0 24 24"><path d="M17.6 6.32A7.85 7.85 0 0 0 12.05 4 7.94 7.94 0 0 0 4.1 11.94a7.84 7.84 0 0 0 1.07 3.97L4 20l4.2-1.1a7.93 7.93 0 0 0 3.85 1h.01a7.94 7.94 0 0 0 7.94-7.94 7.85 7.85 0 0 0-2.4-5.64Z"/></svg> Tap to ask on WhatsApp</div><span class="wa-badge"><svg viewBox="0 0 24 24"><path d="M17.6 6.32A7.85 7.85 0 0 0 12.05 4 7.94 7.94 0 0 0 4.1 11.94a7.84 7.84 0 0 0 1.07 3.97L4 20l4.2-1.1a7.93 7.93 0 0 0 3.85 1h.01a7.94 7.94 0 0 0 7.94-7.94 7.85 7.85 0 0 0-2.4-5.64Z"/></svg></span></a>
+                <a class="menu-item" data-name="Chicken Lasagna"><div class="item-name">Chicken Lasagna</div><div class="wa-hint"><svg class="wa-icon" viewBox="0 0 24 24"><path d="M17.6 6.32A7.85 7.85 0 0 0 12.05 4 7.94 7.94 0 0 0 4.1 11.94a7.84 7.84 0 0 0 1.07 3.97L4 20l4.2-1.1a7.93 7.93 0 0 0 3.85 1h.01a7.94 7.94 0 0 0 7.94-7.94 7.85 7.85 0 0 0-2.4-5.64Z"/></svg> Tap to ask on WhatsApp</div><span class="wa-badge"><svg viewBox="0 0 24 24"><path d="M17.6 6.32A7.85 7.85 0 0 0 12.05 4 7.94 7.94 0 0 0 4.1 11.94a7.84 7.84 0 0 0 1.07 3.97L4 20l4.2-1.1a7.93 7.93 0 0 0 3.85 1h.01a7.94 7.94 0 0 0 7.94-7.94 7.85 7.85 0 0 0-2.4-5.64Z"/></svg></span></a>
+                <a class="menu-item" data-name="Penne Pasta Pomodoro"><div class="item-name">Penne Pasta Pomodoro</div><div class="wa-hint"><svg class="wa-icon" viewBox="0 0 24 24"><path d="M17.6 6.32A7.85 7.85 0 0 0 12.05 4 7.94 7.94 0 0 0 4.1 11.94a7.84 7.84 0 0 0 1.07 3.97L4 20l4.2-1.1a7.93 7.93 0 0 0 3.85 1h.01a7.94 7.94 0 0 0 7.94-7.94 7.85 7.85 0 0 0-2.4-5.64Z"/></svg> Tap to ask on WhatsApp</div><span class="wa-badge"><svg viewBox="0 0 24 24"><path d="M17.6 6.32A7.85 7.85 0 0 0 12.05 4 7.94 7.94 0 0 0 4.1 11.94a7.84 7.84 0 0 0 1.07 3.97L4 20l4.2-1.1a7.93 7.93 0 0 0 3.85 1h.01a7.94 7.94 0 0 0 7.94-7.94 7.85 7.85 0 0 0-2.4-5.64Z"/></svg></span></a>
+                <a class="menu-item" data-name="Tandoori Chicken OR Chicken Korma"><div class="item-name">Tandoori Chicken <span style="color:var(--text-muted); font-size:0.9rem;">OR</span> Chicken Korma</div><div class="wa-hint"><svg class="wa-icon" viewBox="0 0 24 24"><path d="M17.6 6.32A7.85 7.85 0 0 0 12.05 4 7.94 7.94 0 0 0 4.1 11.94a7.84 7.84 0 0 0 1.07 3.97L4 20l4.2-1.1a7.93 7.93 0 0 0 3.85 1h.01a7.94 7.94 0 0 0 7.94-7.94 7.85 7.85 0 0 0-2.4-5.64Z"/></svg> Tap to ask on WhatsApp</div><span class="wa-badge"><svg viewBox="0 0 24 24"><path d="M17.6 6.32A7.85 7.85 0 0 0 12.05 4 7.94 7.94 0 0 0 4.1 11.94a7.84 7.84 0 0 0 1.07 3.97L4 20l4.2-1.1a7.93 7.93 0 0 0 3.85 1h.01a7.94 7.94 0 0 0 7.94-7.94 7.85 7.85 0 0 0-2.4-5.64Z"/></svg></span></a>
+                <a class="menu-item" data-name="Fish Ambul Thiyal"><div class="item-name">Fish Ambul Thiyal</div><div class="wa-hint"><svg class="wa-icon" viewBox="0 0 24 24"><path d="M17.6 6.32A7.85 7.85 0 0 0 12.05 4 7.94 7.94 0 0 0 4.1 11.94a7.84 7.84 0 0 0 1.07 3.97L4 20l4.2-1.1a7.93 7.93 0 0 0 3.85 1h.01a7.94 7.94 0 0 0 7.94-7.94 7.85 7.85 0 0 0-2.4-5.64Z"/></svg> Tap to ask on WhatsApp</div><span class="wa-badge"><svg viewBox="0 0 24 24"><path d="M17.6 6.32A7.85 7.85 0 0 0 12.05 4 7.94 7.94 0 0 0 4.1 11.94a7.84 7.84 0 0 0 1.07 3.97L4 20l4.2-1.1a7.93 7.93 0 0 0 3.85 1h.01a7.94 7.94 0 0 0 7.94-7.94 7.85 7.85 0 0 0-2.4-5.64Z"/></svg></span></a>
+                <a class="menu-item" data-name="Potato Tempered"><div class="item-name">Potato Tempered</div><div class="wa-hint"><svg class="wa-icon" viewBox="0 0 24 24"><path d="M17.6 6.32A7.85 7.85 0 0 0 12.05 4 7.94 7.94 0 0 0 4.1 11.94a7.84 7.84 0 0 0 1.07 3.97L4 20l4.2-1.1a7.93 7.93 0 0 0 3.85 1h.01a7.94 7.94 0 0 0 7.94-7.94 7.85 7.85 0 0 0-2.4-5.64Z"/></svg> Tap to ask on WhatsApp</div><span class="wa-badge"><svg viewBox="0 0 24 24"><path d="M17.6 6.32A7.85 7.85 0 0 0 12.05 4 7.94 7.94 0 0 0 4.1 11.94a7.84 7.84 0 0 0 1.07 3.97L4 20l4.2-1.1a7.93 7.93 0 0 0 3.85 1h.01a7.94 7.94 0 0 0 7.94-7.94 7.85 7.85 0 0 0-2.4-5.64Z"/></svg></span></a>
+                <a class="menu-item" data-name="Brinjal Moju"><div class="item-name">Brinjal Moju</div><div class="wa-hint"><svg class="wa-icon" viewBox="0 0 24 24"><path d="M17.6 6.32A7.85 7.85 0 0 0 12.05 4 7.94 7.94 0 0 0 4.1 11.94a7.84 7.84 0 0 0 1.07 3.97L4 20l4.2-1.1a7.93 7.93 0 0 0 3.85 1h.01a7.94 7.94 0 0 0 7.94-7.94 7.85 7.85 0 0 0-2.4-5.64Z"/></svg> Tap to ask on WhatsApp</div><span class="wa-badge"><svg viewBox="0 0 24 24"><path d="M17.6 6.32A7.85 7.85 0 0 0 12.05 4 7.94 7.94 0 0 0 4.1 11.94a7.84 7.84 0 0 0 1.07 3.97L4 20l4.2-1.1a7.93 7.93 0 0 0 3.85 1h.01a7.94 7.94 0 0 0 7.94-7.94 7.85 7.85 0 0 0-2.4-5.64Z"/></svg></span></a>
+                <a class="menu-item" data-name="Cashew & Green Peas Curry"><div class="item-name">Cashew &amp; Green Peas Curry</div><div class="wa-hint"><svg class="wa-icon" viewBox="0 0 24 24"><path d="M17.6 6.32A7.85 7.85 0 0 0 12.05 4 7.94 7.94 0 0 0 4.1 11.94a7.84 7.84 0 0 0 1.07 3.97L4 20l4.2-1.1a7.93 7.93 0 0 0 3.85 1h.01a7.94 7.94 0 0 0 7.94-7.94 7.85 7.85 0 0 0-2.4-5.64Z"/></svg> Tap to ask on WhatsApp</div><span class="wa-badge"><svg viewBox="0 0 24 24"><path d="M17.6 6.32A7.85 7.85 0 0 0 12.05 4 7.94 7.94 0 0 0 4.1 11.94a7.84 7.84 0 0 0 1.07 3.97L4 20l4.2-1.1a7.93 7.93 0 0 0 3.85 1h.01a7.94 7.94 0 0 0 7.94-7.94 7.85 7.85 0 0 0-2.4-5.64Z"/></svg></span></a>
+                <a class="menu-item" data-name="Cutlets"><div class="item-name">Cutlets</div><div class="wa-hint"><svg class="wa-icon" viewBox="0 0 24 24"><path d="M17.6 6.32A7.85 7.85 0 0 0 12.05 4 7.94 7.94 0 0 0 4.1 11.94a7.84 7.84 0 0 0 1.07 3.97L4 20l4.2-1.1a7.93 7.93 0 0 0 3.85 1h.01a7.94 7.94 0 0 0 7.94-7.94 7.85 7.85 0 0 0-2.4-5.64Z"/></svg> Tap to ask on WhatsApp</div><span class="wa-badge"><svg viewBox="0 0 24 24"><path d="M17.6 6.32A7.85 7.85 0 0 0 12.05 4 7.94 7.94 0 0 0 4.1 11.94a7.84 7.84 0 0 0 1.07 3.97L4 20l4.2-1.1a7.93 7.93 0 0 0 3.85 1h.01a7.94 7.94 0 0 0 7.94-7.94 7.85 7.85 0 0 0-2.4-5.64Z"/></svg></span></a>
+                <a class="menu-item" data-name="Dry Dhal Curry"><div class="item-name">Dry Dhal Curry</div><div class="wa-hint"><svg class="wa-icon" viewBox="0 0 24 24"><path d="M17.6 6.32A7.85 7.85 0 0 0 12.05 4 7.94 7.94 0 0 0 4.1 11.94a7.84 7.84 0 0 0 1.07 3.97L4 20l4.2-1.1a7.93 7.93 0 0 0 3.85 1h.01a7.94 7.94 0 0 0 7.94-7.94 7.85 7.85 0 0 0-2.4-5.64Z"/></svg> Tap to ask on WhatsApp</div><span class="wa-badge"><svg viewBox="0 0 24 24"><path d="M17.6 6.32A7.85 7.85 0 0 0 12.05 4 7.94 7.94 0 0 0 4.1 11.94a7.84 7.84 0 0 0 1.07 3.97L4 20l4.2-1.1a7.93 7.93 0 0 0 3.85 1h.01a7.94 7.94 0 0 0 7.94-7.94 7.85 7.85 0 0 0-2.4-5.64Z"/></svg></span></a>
+                <a class="menu-item" data-name="Chili Pork OR Black Pork"><div class="item-name">Chili Pork <span style="color:var(--text-muted); font-size:0.9rem;">OR</span> Black Pork</div><div class="wa-hint"><svg class="wa-icon" viewBox="0 0 24 24"><path d="M17.6 6.32A7.85 7.85 0 0 0 12.05 4 7.94 7.94 0 0 0 4.1 11.94a7.84 7.84 0 0 0 1.07 3.97L4 20l4.2-1.1a7.93 7.93 0 0 0 3.85 1h.01a7.94 7.94 0 0 0 7.94-7.94 7.85 7.85 0 0 0-2.4-5.64Z"/></svg> Tap to ask on WhatsApp</div><span class="wa-badge"><svg viewBox="0 0 24 24"><path d="M17.6 6.32A7.85 7.85 0 0 0 12.05 4 7.94 7.94 0 0 0 4.1 11.94a7.84 7.84 0 0 0 1.07 3.97L4 20l4.2-1.1a7.93 7.93 0 0 0 3.85 1h.01a7.94 7.94 0 0 0 7.94-7.94 7.85 7.85 0 0 0-2.4-5.64Z"/></svg></span></a>
+                <a class="menu-item" data-name="Papadum OR Prawn Crackers"><div class="item-name">Papadum <span style="color:var(--text-muted); font-size:0.9rem;">OR</span> Prawn Crackers</div><div class="wa-hint"><svg class="wa-icon" viewBox="0 0 24 24"><path d="M17.6 6.32A7.85 7.85 0 0 0 12.05 4 7.94 7.94 0 0 0 4.1 11.94a7.84 7.84 0 0 0 1.07 3.97L4 20l4.2-1.1a7.93 7.93 0 0 0 3.85 1h.01a7.94 7.94 0 0 0 7.94-7.94 7.85 7.85 0 0 0-2.4-5.64Z"/></svg> Tap to ask on WhatsApp</div><span class="wa-badge"><svg viewBox="0 0 24 24"><path d="M17.6 6.32A7.85 7.85 0 0 0 12.05 4 7.94 7.94 0 0 0 4.1 11.94a7.84 7.84 0 0 0 1.07 3.97L4 20l4.2-1.1a7.93 7.93 0 0 0 3.85 1h.01a7.94 7.94 0 0 0 7.94-7.94 7.85 7.85 0 0 0-2.4-5.64Z"/></svg></span></a>
+                <a class="menu-item" data-name="Grilled Beef Jumbo Sausage"><div class="item-name">Grilled Beef Jumbo Sausage</div><div class="wa-hint"><svg class="wa-icon" viewBox="0 0 24 24"><path d="M17.6 6.32A7.85 7.85 0 0 0 12.05 4 7.94 7.94 0 0 0 4.1 11.94a7.84 7.84 0 0 0 1.07 3.97L4 20l4.2-1.1a7.93 7.93 0 0 0 3.85 1h.01a7.94 7.94 0 0 0 7.94-7.94 7.85 7.85 0 0 0-2.4-5.64Z"/></svg> Tap to ask on WhatsApp</div><span class="wa-badge"><svg viewBox="0 0 24 24"><path d="M17.6 6.32A7.85 7.85 0 0 0 12.05 4 7.94 7.94 0 0 0 4.1 11.94a7.84 7.84 0 0 0 1.07 3.97L4 20l4.2-1.1a7.93 7.93 0 0 0 3.85 1h.01a7.94 7.94 0 0 0 7.94-7.94 7.85 7.85 0 0 0-2.4-5.64Z"/></svg></span></a>
             </div>
-        </div>
+        </section>
 
         <!-- Desserts -->
-        <div class="menu-category active" data-category="desserts">
+        <section class="menu-category active" data-category="desserts">
             <h2 class="category-title">Desserts</h2>
             <div class="menu-grid">
-                <div class="menu-item"><div class="item-name">Chocolate and Vanilla Ice Cream</div></div>
-                <div class="menu-item"><div class="item-name">Fresh Fruit Platter</div></div>
-                <div class="menu-item"><div class="item-name">Cream Caramel <span style="color:var(--text-muted); font-size:0.9rem;">OR</span> Watalappan</div></div>
-                <div class="menu-item"><div class="item-name">Mix Jelly Pudding</div></div>
-                <div class="menu-item"><div class="item-name">Curd & Treacle</div></div>
+                <a class="menu-item" data-name="Chocolate and Vanilla Ice Cream"><div class="item-name">Chocolate and Vanilla Ice Cream</div><div class="wa-hint"><svg class="wa-icon" viewBox="0 0 24 24"><path d="M17.6 6.32A7.85 7.85 0 0 0 12.05 4 7.94 7.94 0 0 0 4.1 11.94a7.84 7.84 0 0 0 1.07 3.97L4 20l4.2-1.1a7.93 7.93 0 0 0 3.85 1h.01a7.94 7.94 0 0 0 7.94-7.94 7.85 7.85 0 0 0-2.4-5.64Z"/></svg> Tap to ask on WhatsApp</div><span class="wa-badge"><svg viewBox="0 0 24 24"><path d="M17.6 6.32A7.85 7.85 0 0 0 12.05 4 7.94 7.94 0 0 0 4.1 11.94a7.84 7.84 0 0 0 1.07 3.97L4 20l4.2-1.1a7.93 7.93 0 0 0 3.85 1h.01a7.94 7.94 0 0 0 7.94-7.94 7.85 7.85 0 0 0-2.4-5.64Z"/></svg></span></a>
+                <a class="menu-item" data-name="Fresh Fruit Platter"><div class="item-name">Fresh Fruit Platter</div><div class="wa-hint"><svg class="wa-icon" viewBox="0 0 24 24"><path d="M17.6 6.32A7.85 7.85 0 0 0 12.05 4 7.94 7.94 0 0 0 4.1 11.94a7.84 7.84 0 0 0 1.07 3.97L4 20l4.2-1.1a7.93 7.93 0 0 0 3.85 1h.01a7.94 7.94 0 0 0 7.94-7.94 7.85 7.85 0 0 0-2.4-5.64Z"/></svg> Tap to ask on WhatsApp</div><span class="wa-badge"><svg viewBox="0 0 24 24"><path d="M17.6 6.32A7.85 7.85 0 0 0 12.05 4 7.94 7.94 0 0 0 4.1 11.94a7.84 7.84 0 0 0 1.07 3.97L4 20l4.2-1.1a7.93 7.93 0 0 0 3.85 1h.01a7.94 7.94 0 0 0 7.94-7.94 7.85 7.85 0 0 0-2.4-5.64Z"/></svg></span></a>
+                <a class="menu-item" data-name="Cream Caramel OR Watalappan"><div class="item-name">Cream Caramel <span style="color:var(--text-muted); font-size:0.9rem;">OR</span> Watalappan</div><div class="wa-hint"><svg class="wa-icon" viewBox="0 0 24 24"><path d="M17.6 6.32A7.85 7.85 0 0 0 12.05 4 7.94 7.94 0 0 0 4.1 11.94a7.84 7.84 0 0 0 1.07 3.97L4 20l4.2-1.1a7.93 7.93 0 0 0 3.85 1h.01a7.94 7.94 0 0 0 7.94-7.94 7.85 7.85 0 0 0-2.4-5.64Z"/></svg> Tap to ask on WhatsApp</div><span class="wa-badge"><svg viewBox="0 0 24 24"><path d="M17.6 6.32A7.85 7.85 0 0 0 12.05 4 7.94 7.94 0 0 0 4.1 11.94a7.84 7.84 0 0 0 1.07 3.97L4 20l4.2-1.1a7.93 7.93 0 0 0 3.85 1h.01a7.94 7.94 0 0 0 7.94-7.94 7.85 7.85 0 0 0-2.4-5.64Z"/></svg></span></a>
+                <a class="menu-item" data-name="Mix Jelly Pudding"><div class="item-name">Mix Jelly Pudding</div><div class="wa-hint"><svg class="wa-icon" viewBox="0 0 24 24"><path d="M17.6 6.32A7.85 7.85 0 0 0 12.05 4 7.94 7.94 0 0 0 4.1 11.94a7.84 7.84 0 0 0 1.07 3.97L4 20l4.2-1.1a7.93 7.93 0 0 0 3.85 1h.01a7.94 7.94 0 0 0 7.94-7.94 7.85 7.85 0 0 0-2.4-5.64Z"/></svg> Tap to ask on WhatsApp</div><span class="wa-badge"><svg viewBox="0 0 24 24"><path d="M17.6 6.32A7.85 7.85 0 0 0 12.05 4 7.94 7.94 0 0 0 4.1 11.94a7.84 7.84 0 0 0 1.07 3.97L4 20l4.2-1.1a7.93 7.93 0 0 0 3.85 1h.01a7.94 7.94 0 0 0 7.94-7.94 7.85 7.85 0 0 0-2.4-5.64Z"/></svg></span></a>
+                <a class="menu-item" data-name="Curd & Treacle"><div class="item-name">Curd &amp; Treacle</div><div class="wa-hint"><svg class="wa-icon" viewBox="0 0 24 24"><path d="M17.6 6.32A7.85 7.85 0 0 0 12.05 4 7.94 7.94 0 0 0 4.1 11.94a7.84 7.84 0 0 0 1.07 3.97L4 20l4.2-1.1a7.93 7.93 0 0 0 3.85 1h.01a7.94 7.94 0 0 0 7.94-7.94 7.85 7.85 0 0 0-2.4-5.64Z"/></svg> Tap to ask on WhatsApp</div><span class="wa-badge"><svg viewBox="0 0 24 24"><path d="M17.6 6.32A7.85 7.85 0 0 0 12.05 4 7.94 7.94 0 0 0 4.1 11.94a7.84 7.84 0 0 0 1.07 3.97L4 20l4.2-1.1a7.93 7.93 0 0 0 3.85 1h.01a7.94 7.94 0 0 0 7.94-7.94 7.85 7.85 0 0 0-2.4-5.64Z"/></svg></span></a>
             </div>
-        </div>
+        </section>
 
-        <!-- Live Station & Drinks -->
-        <div class="menu-category active" data-category="live">
-            <h2 class="category-title">Live Action Station & Beverages</h2>
+        <!-- Live Action Station & Beverages -->
+        <section class="menu-category active" data-category="live">
+            <h2 class="category-title">Live Action Station &amp; Beverages</h2>
             <div class="menu-grid">
-                <div class="menu-item">
-                    <div class="item-name">Welcome Drink</div>
-                    <div class="item-desc">Watermelon Juice OR Mix Fruit Cordial</div>
-                </div>
-                <div class="menu-item"><div class="item-name">Egg & Plain Hoppers</div></div>
-                <div class="menu-item"><div class="item-name">Katta Sambal</div></div>
-                <div class="menu-item"><div class="item-name">Seeni Sambal</div></div>
+                <a class="menu-item" data-name="Welcome Drink"><div class="item-name">Welcome Drink</div><div class="item-desc">Watermelon Juice OR Mix Fruit Cordial</div><div class="wa-hint"><svg class="wa-icon" viewBox="0 0 24 24"><path d="M17.6 6.32A7.85 7.85 0 0 0 12.05 4 7.94 7.94 0 0 0 4.1 11.94a7.84 7.84 0 0 0 1.07 3.97L4 20l4.2-1.1a7.93 7.93 0 0 0 3.85 1h.01a7.94 7.94 0 0 0 7.94-7.94 7.85 7.85 0 0 0-2.4-5.64Z"/></svg> Tap to ask on WhatsApp</div><span class="wa-badge"><svg viewBox="0 0 24 24"><path d="M17.6 6.32A7.85 7.85 0 0 0 12.05 4 7.94 7.94 0 0 0 4.1 11.94a7.84 7.84 0 0 0 1.07 3.97L4 20l4.2-1.1a7.93 7.93 0 0 0 3.85 1h.01a7.94 7.94 0 0 0 7.94-7.94 7.85 7.85 0 0 0-2.4-5.64Z"/></svg></span></a>
+                <a class="menu-item" data-name="Egg & Plain Hoppers"><div class="item-name">Egg &amp; Plain Hoppers</div><div class="wa-hint"><svg class="wa-icon" viewBox="0 0 24 24"><path d="M17.6 6.32A7.85 7.85 0 0 0 12.05 4 7.94 7.94 0 0 0 4.1 11.94a7.84 7.84 0 0 0 1.07 3.97L4 20l4.2-1.1a7.93 7.93 0 0 0 3.85 1h.01a7.94 7.94 0 0 0 7.94-7.94 7.85 7.85 0 0 0-2.4-5.64Z"/></svg> Tap to ask on WhatsApp</div><span class="wa-badge"><svg viewBox="0 0 24 24"><path d="M17.6 6.32A7.85 7.85 0 0 0 12.05 4 7.94 7.94 0 0 0 4.1 11.94a7.84 7.84 0 0 0 1.07 3.97L4 20l4.2-1.1a7.93 7.93 0 0 0 3.85 1h.01a7.94 7.94 0 0 0 7.94-7.94 7.85 7.85 0 0 0-2.4-5.64Z"/></svg></span></a>
+                <a class="menu-item" data-name="Katta Sambal"><div class="item-name">Katta Sambal</div><div class="wa-hint"><svg class="wa-icon" viewBox="0 0 24 24"><path d="M17.6 6.32A7.85 7.85 0 0 0 12.05 4 7.94 7.94 0 0 0 4.1 11.94a7.84 7.84 0 0 0 1.07 3.97L4 20l4.2-1.1a7.93 7.93 0 0 0 3.85 1h.01a7.94 7.94 0 0 0 7.94-7.94 7.85 7.85 0 0 0-2.4-5.64Z"/></svg> Tap to ask on WhatsApp</div><span class="wa-badge"><svg viewBox="0 0 24 24"><path d="M17.6 6.32A7.85 7.85 0 0 0 12.05 4 7.94 7.94 0 0 0 4.1 11.94a7.84 7.84 0 0 0 1.07 3.97L4 20l4.2-1.1a7.93 7.93 0 0 0 3.85 1h.01a7.94 7.94 0 0 0 7.94-7.94 7.85 7.85 0 0 0-2.4-5.64Z"/></svg></span></a>
+                <a class="menu-item" data-name="Seeni Sambal"><div class="item-name">Seeni Sambal</div><div class="wa-hint"><svg class="wa-icon" viewBox="0 0 24 24"><path d="M17.6 6.32A7.85 7.85 0 0 0 12.05 4 7.94 7.94 0 0 0 4.1 11.94a7.84 7.84 0 0 0 1.07 3.97L4 20l4.2-1.1a7.93 7.93 0 0 0 3.85 1h.01a7.94 7.94 0 0 0 7.94-7.94 7.85 7.85 0 0 0-2.4-5.64Z"/></svg> Tap to ask on WhatsApp</div><span class="wa-badge"><svg viewBox="0 0 24 24"><path d="M17.6 6.32A7.85 7.85 0 0 0 12.05 4 7.94 7.94 0 0 0 4.1 11.94a7.84 7.84 0 0 0 1.07 3.97L4 20l4.2-1.1a7.93 7.93 0 0 0 3.85 1h.01a7.94 7.94 0 0 0 7.94-7.94 7.85 7.85 0 0 0-2.4-5.64Z"/></svg></span></a>
             </div>
-        </div>
+        </section>
 
-    </div>
-
-    <!-- Sticky Bottom Ad Banner -->
-    <div class="ad-banner-container">
-        <span id="ad-text">Unlimited Buffet for Rs. 2,990/-</span>
-    </div>
+    </main>
 
     <footer>
-        <p>&#9819; The Emperor Restaurant & Pub</p>
-        <p style="font-size: 0.9rem; color: #888;">Kadawatha - Ganemulla Road | Reservations: 076 37 00 807</p>
+        <p>&#9819; The Emperor Restaurant &amp; Pub</p>
+        <p class="footer-sub">Kadawatha - Ganemulla Road &nbsp;|&nbsp; Reservations: 076 37 00 807</p>
     </footer>
 
+    <!-- ============== NON-INTRUSIVE ROTATING AD BANNER ============== -->
+    <div class="ad-banner" id="adBanner" role="status" aria-live="polite" aria-label="Promotional banner">
+        <span class="ad-text" id="adText">
+            <span class="ad-icon">&#10024;</span>
+            <span>Unlimited Buffet for Rs. 2,990/-</span>
+        </span>
+        <button class="ad-close" id="adClose" aria-label="Close promotional banner">&times;</button>
+        <div class="ad-dots" id="adDots" aria-hidden="true">
+            <span class="active"></span>
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </div>
+
+    <button class="ad-reopen" id="adReopen" aria-label="Show promotional banner again">Offers &#10024;</button>
+
     <script>
-        // JavaScript for filtering menu categories
+        /* ============================================================
+         * 1. CATEGORY FILTERING
+         * ============================================================ */
         const filterBtns = document.querySelectorAll('.filter-btn');
         const categories = document.querySelectorAll('.menu-category');
 
@@ -660,8 +676,9 @@
                 const filterValue = btn.getAttribute('data-filter');
 
                 categories.forEach(category => {
+                    // Restart the fade-in animation
                     category.style.animation = 'none';
-                    category.offsetHeight; // trigger reflow
+                    void category.offsetHeight; // trigger reflow
                     category.style.animation = null;
 
                     if (filterValue === 'all' || category.getAttribute('data-category') === filterValue) {
@@ -673,48 +690,129 @@
             });
         });
 
-        // JavaScript for WhatsApp Redirection on Item Click
+        /* ============================================================
+         * 2. WHATSAPP CLICK-TO-CHAT FOR EVERY MENU ITEM
+         *    Each item redirects to https://wa.me/+94763700807
+         *    with a pre-filled message: "Hi, Can I know about this [item]?"
+         * ============================================================ */
         const menuItems = document.querySelectorAll('.menu-item');
-        const whatsappNumber = "94763700807";
+        const WHATSAPP_NUMBER = "+94763700807"; // +94 76 37 00 807
 
         menuItems.forEach(item => {
-            item.addEventListener('click', () => {
-                // Extracting just the text node of the item name, ignoring HTML spans if any
-                const itemNameDiv = item.querySelector('.item-name');
-                const itemName = itemNameDiv.childNodes[0].nodeValue.trim(); 
-                
-                const message = `Hi, Can I know about this ${itemName}?`;
-                const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
-                
-                window.open(whatsappUrl, '_blank');
+            // Use the clean item name stored in data-name
+            const itemName = item.getAttribute('data-name') || item.querySelector('.item-name').textContent.trim();
+
+            const message = `Hi, Can I know about this ${itemName}?`;
+            const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+
+            // Make it a real link so it works with right-click, long-press, etc.
+            item.setAttribute('href', whatsappUrl);
+            item.setAttribute('target', '_blank');
+            item.setAttribute('rel', 'noopener noreferrer');
+
+            // Safety net: also handle the click event directly
+            item.addEventListener('click', (e) => {
+                // Let the <a href> do the work on left-click; fallback for older browsers
+                if (e.metaKey || e.ctrlKey || e.shiftKey) return; // allow open-in-new-tab shortcuts
+                e.preventDefault();
+                window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
             });
         });
 
-        // JavaScript for Auto-Rotating Ad Banner
+        /* ============================================================
+         * 3. ROTATING, NON-INTRUSIVE AD BANNER
+         *    - Rotates 4 promo messages every 3.5s
+         *    - Pauses on hover / touch (so it never distracts the reader)
+         *    - Has a dismiss (X) button — stays dismissed for the session
+         *    - Auto-collapses into a thin sliver after 14s of no interaction
+         *      and re-expands on hover, so it never blocks content
+         *    - A small "Offers" pill re-opens it after dismissal
+         * ============================================================ */
         const adTexts = [
-            "&#10024; Unlimited Buffet for Rs. 2,990/- &#10024;", 
-            "&#127867; BYOB Facility Available &#127867;", 
-            "&#127821; Premium Catering Service &#127821;", 
-            "&#127928; Enjoy Live Music Events &#127928;"
+            { icon: '&#10024;', text: 'Unlimited Buffet for Rs. 2,990/-' },
+            { icon: '&#127867;', text: 'BYOB Facility Available' },
+            { icon: '&#127821;', text: 'Premium Catering Service' },
+            { icon: '&#127928;', text: 'Enjoy Live Music Events' }
         ];
-        
-        let adIndex = 0;
-        const adTextElement = document.getElementById('ad-text');
 
-        setInterval(() => {
+        const adBanner   = document.getElementById('adBanner');
+        const adTextEl   = document.getElementById('adText');
+        const adCloseBtn = document.getElementById('adClose');
+        const adReopenBtn= document.getElementById('adReopen');
+        const adDots     = document.getElementById('adDots').querySelectorAll('span');
+
+        let adIndex = 0;
+        let adPaused = false;
+        let adDismissed = false;
+        let collapseTimer = null;
+
+        function renderAd() {
+            const ad = adTexts[adIndex];
+            adTextEl.classList.remove('fade-anim');
+            void adTextEl.offsetWidth; // restart animation
+            adTextEl.innerHTML = `<span class="ad-icon">${ad.icon}</span><span>${ad.text}</span>`;
+            adTextEl.classList.add('fade-anim');
+
+            adDots.forEach((d, i) => d.classList.toggle('active', i === adIndex));
+        }
+
+        function nextAd() {
+            if (adPaused || adDismissed) return;
             adIndex = (adIndex + 1) % adTexts.length;
-            
-            // Remove animation class to reset
-            adTextElement.classList.remove('fade-anim');
-            
-            // Trigger reflow to restart animation
-            void adTextElement.offsetWidth; 
-            
-            // Change text and add animation class back
-            adTextElement.innerHTML = adTexts[adIndex];
-            adTextElement.classList.add('fade-anim');
-            
-        }, 3500); // Changes every 3.5 seconds
+            renderAd();
+        }
+
+        let rotateInterval = setInterval(nextAd, 3500);
+
+        // Pause on hover (desktop) and touch (mobile)
+        adBanner.addEventListener('mouseenter', () => { adPaused = true; expandAd(); });
+        adBanner.addEventListener('mouseleave', () => { adPaused = false; scheduleCollapse(); });
+        adBanner.addEventListener('touchstart', () => { adPaused = true; expandAd(); }, { passive: true });
+        adBanner.addEventListener('touchend',   () => { adPaused = false; scheduleCollapse(); }, { passive: true });
+        adBanner.addEventListener('focusin',  () => { adPaused = true; expandAd(); });
+        adBanner.addEventListener('focusout', () => { adPaused = false; scheduleCollapse(); });
+
+        function expandAd() {
+            adBanner.classList.remove('collapsed');
+            clearTimeout(collapseTimer);
+        }
+
+        function scheduleCollapse() {
+            clearTimeout(collapseTimer);
+            // After 14s of no interaction, slide down to a thin sliver
+            collapseTimer = setTimeout(() => {
+                if (!adPaused && !adDismissed) {
+                    adBanner.classList.add('collapsed');
+                }
+            }, 14000);
+        }
+
+        // Dismiss button — hides banner entirely for the session
+        adCloseBtn.addEventListener('click', () => {
+            adDismissed = true;
+            adBanner.classList.add('dismissed');
+            adBanner.classList.remove('collapsed');
+            clearInterval(rotateInterval);
+            // Show the small "Offers" pill so the user can bring it back if they want
+            setTimeout(() => adReopenBtn.classList.add('visible'), 400);
+        });
+
+        // Reopen button — brings the banner back
+        adReopenBtn.addEventListener('click', () => {
+            adDismissed = false;
+            adReopenBtn.classList.remove('visible');
+            adBanner.classList.remove('dismissed');
+            adPaused = false;
+            rotateInterval = setInterval(nextAd, 3500);
+            renderAd();
+            scheduleCollapse();
+        });
+
+        // Start the auto-collapse countdown
+        scheduleCollapse();
+
+        // Initial paint
+        renderAd();
     </script>
 </body>
 </html>
