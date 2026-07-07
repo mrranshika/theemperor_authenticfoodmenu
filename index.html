@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Emperor Restaurant & Pub - Grand Opening Menu</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-gold: #d4af37;
+            --dark-bg: #0d0d0d;
+            --card-bg: #1a1a1a;
+            --text-light: #f4f4f4;
+            --text-muted: #aaaaaa;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--dark-bg);
+            color: var(--text-light);
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+        }
+
+        /* Header Section */
+        header {
+            text-align: center;
+            padding: 40px 20px 40px;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.9), var(--dark-bg)), url('https://www.transparenttextures.com/patterns/stardust.png');
+            border-bottom: 2px solid var(--primary-gold);
+            animation: fadeInDown 1s ease-out;
+        }
+
+        .logo-container {
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* නව ලෝගෝ පින්තූරය සඳහා සැකසුම් */
+        .main-logo-img {
+            max-width: 280px; 
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+        }
+
+        /* ලෝගෝ එක යටින් පෙන්වන Restaurant & Pub අකුරු */
+        .sub-logo-text {
+            color: var(--primary-gold);
+            font-family: 'Playfair Display', serif;
+            font-size: 1.2rem;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            margin-top: 10px;
+            font-weight: 700;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
+        }
+
+        /* Filter Buttons */
+        .filters {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            padding: 30px 20px;
+            position: sticky;
+            top: 0;
+            background-color: rgba(13, 13, 13, 0.95);
+            z-index: 100;
+            backdrop-filter: blur(5px);
+        }
+
+        .filter-btn {
+            background: transparent;
+            border: 1px solid var(--primary-gold);
+            color: var(--primary-gold);
+            padding: 8px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .filter-btn:hover, .filter-btn.active {
+            background: var(--primary-gold);
+            color: var(--dark-bg);
+            font-weight: 600;
+        }
+
+        /* Menu Container */
+        .menu-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            min-height: 50vh;
+        }
+
+        .menu-category {
+            display: none;
+            animation: fadeIn 0.8s ease-in-out;
+            margin-bottom: 50px;
+        }
+
+        .menu-category.active {
+            display: block;
+        }
+
+        .category-title {
+            text-align: center;
+            color: var(--primary-gold);
+            font-size: 2rem;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .category-title::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 2px;
+            background: var(--primary-gold);
+            margin: 10px auto 0;
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .menu-item {
+            background: var(--card-bg);
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 3px solid transparent;
+            transition: all 0.3s ease;
+            cursor: default;
+        }
+
+        .menu-item:hover {
+            border-left: 3px solid var(--primary-gold);
+            transform: translateX(10px);
+            background: #222;
+        }
+
+        .item-name {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-light);
+            margin-bottom: 5px;
+        }
+
+        .item-desc {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            background: #000;
+            border-top: 1px solid #333;
+            margin-top: 50px;
+        }
+
+        footer p {
+            color: var(--primary-gold);
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .main-logo-img { max-width: 200px; }
+            .sub-logo-text { font-size: 1rem; letter-spacing: 2px; }
+            .filter-btn { padding: 6px 15px; font-size: 0.8rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo-container">
+            <!-- ඔබගේ පින්තූරය මෙහි යොදා ඇත -->
+            <img src="732748327_122096090637384366_5797980751953902557_n.jpg" alt="The Emperor Logo" class="main-logo-img">
+            <!-- පින්තූරයට යටින් පෙනෙන ලස්සන අකුරු -->
+            <div class="sub-logo-text">Restaurant & Pub</div>
+        </div>
+        <p style="font-size: 1.5rem; margin-top: 25px; color: white; font-family: 'Poppins', sans-serif; text-transform: uppercase; letter-spacing: 1px;">Grand Opening Buffet Menu</p>
+    </header>
+
+    <div class="filters">
+        <button class="filter-btn active" data-filter="all">All Items</button>
+        <button class="filter-btn" data-filter="starters">Starters & Soups</button>
+        <button class="filter-btn" data-filter="salads">Salads</button>
+        <button class="filter-btn" data-filter="mains">Mains</button>
+        <button class="filter-btn" data-filter="desserts">Desserts</button>
+        <button class="filter-btn" data-filter="live">Live Station & Drinks</button>
+    </div>
+
+    <div class="menu-container">
+        
+        <!-- Starters & Soups -->
+        <div class="menu-category active" data-category="starters">
+            <h2 class="category-title">Starters & Soups</h2>
+            <div class="menu-grid">
+                <div class="menu-item"><div class="item-name">Vegetable Wrap</div></div>
+                <div class="menu-item"><div class="item-name">Egg Crispy Baskets</div></div>
+                <div class="menu-item"><div class="item-name">Prawn Cocktail</div></div>
+                <div class="menu-item"><div class="item-name">Brown Hummus & Bread</div></div>
+                <div class="menu-item"><div class="item-name">Chinese Chicken Soup</div></div>
+                <div class="menu-item"><div class="item-name">Vegetable Broth</div></div>
+            </div>
+        </div>
+
+        <!-- Salads -->
+        <div class="menu-category active" data-category="salads">
+            <h2 class="category-title">Salads</h2>
+            <div class="menu-grid">
+                <div class="menu-item"><div class="item-name">Green Salad</div></div>
+                <div class="menu-item"><div class="item-name">Mix Bean Salad</div></div>
+                <div class="menu-item"><div class="item-name">Chicken Salad</div></div>
+                <div class="menu-item"><div class="item-name">Beetroot Salad with Feta Cheese</div></div>
+                <div class="menu-item">
+                    <div class="item-name">Fresh Salad</div>
+                    <div class="item-desc">Tomato Slice, Onion Ring, Cabbage, Carrot, Lettuce, Cucumber</div>
+                </div>
+                <div class="menu-item"><div class="item-name">Kachumber Salad</div></div>
+                <div class="menu-item"><div class="item-name">Mutabal</div></div>
+            </div>
+        </div>
+
+        <!-- Mains -->
+        <div class="menu-category active" data-category="mains">
+            <h2 class="category-title">Mains & Curries</h2>
+            <div class="menu-grid">
+                <div class="menu-item"><div class="item-name">Seafood Rice</div></div>
+                <div class="menu-item"><div class="item-name">Vegetable Noodles</div></div>
+                <div class="menu-item"><div class="item-name">Chicken Lasagna</div></div>
+                <div class="menu-item"><div class="item-name">Penne Pasta Pomodoro</div></div>
+                <div class="menu-item"><div class="item-name">Tandoori Chicken <span style="color:var(--text-muted); font-size:0.9rem;">OR</span> Chicken Korma</div></div>
+                <div class="menu-item"><div class="item-name">Fish Ambul Thiyal</div></div>
+                <div class="menu-item"><div class="item-name">Potato Tempered</div></div>
+                <div class="menu-item"><div class="item-name">Brinjal Moju</div></div>
+                <div class="menu-item"><div class="item-name">Cashew & Green Peas Curry</div></div>
+                <div class="menu-item"><div class="item-name">Cutlets</div></div>
+                <div class="menu-item"><div class="item-name">Dry Dhal Curry</div></div>
+                <div class="menu-item"><div class="item-name">Chili Pork <span style="color:var(--text-muted); font-size:0.9rem;">OR</span> Black Pork</div></div>
+                <div class="menu-item"><div class="item-name">Papadum <span style="color:var(--text-muted); font-size:0.9rem;">OR</span> Prawn Crackers</div></div>
+                <div class="menu-item"><div class="item-name">Grilled Beef Jumbo Sausage</div></div>
+            </div>
+        </div>
+
+        <!-- Desserts -->
+        <div class="menu-category active" data-category="desserts">
+            <h2 class="category-title">Desserts</h2>
+            <div class="menu-grid">
+                <div class="menu-item"><div class="item-name">Chocolate and Vanilla Ice Cream</div></div>
+                <div class="menu-item"><div class="item-name">Fresh Fruit Platter</div></div>
+                <div class="menu-item"><div class="item-name">Cream Caramel <span style="color:var(--text-muted); font-size:0.9rem;">OR</span> Watalappan</div></div>
+                <div class="menu-item"><div class="item-name">Mix Jelly Pudding</div></div>
+                <div class="menu-item"><div class="item-name">Curd & Treacle</div></div>
+            </div>
+        </div>
+
+        <!-- Live Station & Drinks -->
+        <div class="menu-category active" data-category="live">
+            <h2 class="category-title">Live Action Station & Beverages</h2>
+            <div class="menu-grid">
+                <div class="menu-item">
+                    <div class="item-name">Welcome Drink</div>
+                    <div class="item-desc">Watermelon Juice OR Mix Fruit Cordial</div>
+                </div>
+                <div class="menu-item"><div class="item-name">Egg & Plain Hoppers</div></div>
+                <div class="menu-item"><div class="item-name">Katta Sambal</div></div>
+                <div class="menu-item"><div class="item-name">Seeni Sambal</div></div>
+            </div>
+        </div>
+
+    </div>
+
+    <footer>
+        <p>&#9819; The Emperor Restaurant & Pub</p>
+        <p style="font-size: 0.9rem; color: #888;">Kadawatha - Ganemulla Road | Reservations: 076 37 00 807</p>
+    </footer>
+
+    <script>
+        // JavaScript for filtering menu categories
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const categories = document.querySelectorAll('.menu-category');
+
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Remove active class from all buttons
+                filterBtns.forEach(b => b.classList.remove('active'));
+                // Add active class to clicked button
+                btn.classList.add('active');
+
+                const filterValue = btn.getAttribute('data-filter');
+
+                categories.forEach(category => {
+                    // Reset animation by triggering reflow
+                    category.style.animation = 'none';
+                    category.offsetHeight; // trigger reflow
+                    category.style.animation = null;
+
+                    if (filterValue === 'all' || category.getAttribute('data-category') === filterValue) {
+                        category.classList.add('active');
+                    } else {
+                        category.classList.remove('active');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
